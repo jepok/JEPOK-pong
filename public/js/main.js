@@ -1,22 +1,47 @@
 var tableCanvas = document.getElementById("table");
 var tableContext = tableCanvas.getContext('2d');
 tableContext.strokeStyle = "#00f";
-tableContext.lineWidth = 4;
-tableContext.strokeRect(0,0,275,300);
 
-tableContext.fillRect(125,145,10,10);
+var table = function(context){
+  tableContext.lineWidth = 4;
+  tableContext.strokeRect(0,0,275,300);
+}
+var ball = function(context){
+  var xpos = 125;
+  var ypos = 145;
+  var size = 10;
+  tableContext.fillRect(xpos,ypos,size,size);
+}
 
-tableContext.moveTo(15,15);
-tableContext.lineTo(15,60);
-tableContext.lineWidth = 12;
-tableContext.stroke();
-// 
-// tableContext.moveTo(145,131);
-// tableContext.lineTo(155,131);
-// tableContext.lineWidth = 15;
-// tableContext.stroke();
+// function --computerPaddle -- sets up the player paddle with position
+//                             length and width properities
+//                             may add position properties as args later
+var ComputerPaddle = function(context){
+  var xpos = 15;
+  var ypos = 15;
+  var paddleLength = 45;
+  var paddleWidth = 12;
+context.moveTo(xpos,ypos);
+context.lineTo(xpos,ypos + paddleLength);
+context.lineWidth = paddleWidth;
+context.stroke();
 
-tableContext.moveTo(270,295);
-tableContext.lineTo(270,235);
-tableContext.lineWidth = 12;
-tableContext.stroke();
+}
+
+// function --PlayerPaddle -- sets up the player paddle with position
+//                             length and width properities
+//                             may add position properties as args later
+var PlayerPaddle = function(context){
+  var xpos = 260;
+  var ypos = 290;
+  var paddleLength = 45;
+  var paddleWidth = 12;
+  context.moveTo(xpos,ypos);
+  context.lineTo(xpos,ypos - paddleLength);
+  context.lineWidth = paddleWidth;
+  context.stroke();
+}
+table(tableContext);
+ball(tableContext);
+ComputerPaddle(tableContext);
+PlayerPaddle(tableContext);
