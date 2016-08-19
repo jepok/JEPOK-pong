@@ -20,10 +20,10 @@ function Ball(context,xpos,ypos,bsize){
   }
 }
 
-// function --computerPaddle -- sets up the player paddle with position
+// function --Paddle -- sets up a paddle with position
 //                             length and width properities
 //                             may add position properties as args later
-function ComputerPaddle(context,xpos,ypos,plength,pwidth){
+function Paddle(context,xpos,ypos,plength,pwidth){
   this.xpos = xpos;
   this.ypos = ypos;
   this.paddleLength = plength;
@@ -38,30 +38,32 @@ function ComputerPaddle(context,xpos,ypos,plength,pwidth){
 
 }
 
-// function --PlayerPaddle -- sets up the player paddle with position
-//                             length and width properities
-//                             may add position properties as args later
-function PlayerPaddle(context,xpos,ypos,plength,pwidth){
-  this.xpos = xpos;
-  this.ypos = ypos;
-  this.paddleLength = plength;
-  this.paddleWidth = pwidth;
-  this.render = function(context){
-    context.moveTo(this.xpos,this.ypos);
-    context.lineTo(this.xpos,this.ypos - this.paddleLength);
-    context.lineWidth = this.paddleWidth;
-    context.stroke();
-  }
-
-}
 var ntable = new Table(tableContext);
 var nball = new Ball(tableContext,125,145,10);
-var computerPaddle = new ComputerPaddle(tableContext,15,15,45,12);
-var playPaddle = new PlayerPaddle(tableContext,260,290,45,12);
+var computerPaddle = new Paddle(tableContext,15,15,45,12);
+var playPaddle = new Paddle(tableContext,260,245,45,12);
 
-window.onload = function() {
-  ntable.render(tableContext);
+// function render(context) takes a context object and calls the render functions
+//                           of the two paddles and ball objects
+var render = function(context) {
   nball.render(tableContext);
   playPaddle.render(tableContext);
   computerPaddle.render(tableContext);
 }
+
+var Step = function () {
+  render(tableContext);
+}
+
+window.onload = function() {
+  ntable.render(tableContext);
+  render(tableContext);
+  }
+
+
+var animate = window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame    ||
+        window.oRequestAnimationFrame      ||
+        window.msRequestAnimationFrame     ||
+        function(Step) { window.setTimeout(callback, 1000/60) };
