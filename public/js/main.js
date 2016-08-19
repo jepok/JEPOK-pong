@@ -2,46 +2,66 @@ var tableCanvas = document.getElementById("table");
 var tableContext = tableCanvas.getContext('2d');
 tableContext.strokeStyle = "#00f";
 
-var table = function(context){
-  tableContext.lineWidth = 4;
-  tableContext.strokeRect(0,0,275,300);
+function Table(context){
+  context.lineWidth = 4;
+  this.render = function(context) {
+    context.strokeRect(0,0,275,300);
+  }
 }
-var ball = function(context){
-  var xpos = 125;
-  var ypos = 145;
-  var size = 10;
-  tableContext.fillRect(xpos,ypos,size,size);
+
+function Ball(context,xpos,ypos,bsize){
+  this.xpos = xpos;
+  this.ypos = ypos;
+  this.bsize = bsize;
+  this.render = function(context) {
+    context.fillStyle = "#000"
+    context.fillRect(this.xpos,this.ypos,this.bsize,this.bsize);
+
+  }
 }
 
 // function --computerPaddle -- sets up the player paddle with position
 //                             length and width properities
 //                             may add position properties as args later
-var ComputerPaddle = function(context){
-  var xpos = 15;
-  var ypos = 15;
-  var paddleLength = 45;
-  var paddleWidth = 12;
-context.moveTo(xpos,ypos);
-context.lineTo(xpos,ypos + paddleLength);
-context.lineWidth = paddleWidth;
-context.stroke();
+function ComputerPaddle(context,xpos,ypos,plength,pwidth){
+  this.xpos = xpos;
+  this.ypos = ypos;
+  this.paddleLength = plength;
+  this.paddleWidth = pwidth;
+  this.render = function(context){
+    context.moveTo(this.xpos,this.ypos);
+    context.lineTo(this.xpos,this.ypos + this.paddleLength);
+    context.lineWidth = this.paddleWidth;
+    context.stroke();
+  }
+
 
 }
 
 // function --PlayerPaddle -- sets up the player paddle with position
 //                             length and width properities
 //                             may add position properties as args later
-var PlayerPaddle = function(context){
-  var xpos = 260;
-  var ypos = 290;
-  var paddleLength = 45;
-  var paddleWidth = 12;
-  context.moveTo(xpos,ypos);
-  context.lineTo(xpos,ypos - paddleLength);
-  context.lineWidth = paddleWidth;
-  context.stroke();
+function PlayerPaddle(context,xpos,ypos,plength,pwidth){
+  this.xpos = xpos;
+  this.ypos = ypos;
+  this.paddleLength = plength;
+  this.paddleWidth = pwidth;
+  this.render = function(context){
+    context.moveTo(this.xpos,this.ypos);
+    context.lineTo(this.xpos,this.ypos - this.paddleLength);
+    context.lineWidth = this.paddleWidth;
+    context.stroke();
+  }
+
 }
-table(tableContext);
-ball(tableContext);
-ComputerPaddle(tableContext);
-PlayerPaddle(tableContext);
+var ntable = new Table(tableContext);
+var nball = new Ball(tableContext,125,145,10);
+var computerPaddle = new ComputerPaddle(tableContext,15,15,45,12);
+var playPaddle = new PlayerPaddle(tableContext,260,290,45,12);
+
+window.onload = function() {
+  ntable.render(tableContext);
+  nball.render(tableContext);
+  playPaddle.render(tableContext);
+  computerPaddle.render(tableContext);
+}
