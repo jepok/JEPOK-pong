@@ -23,25 +23,50 @@ function Ball(context,xpos,ypos,bsize){
 // function --Paddle -- sets up a paddle with position
 //                             length and width properities
 //                             may add position properties as args later
-function Paddle(context,xpos,ypos,plength,pwidth){
+function Paddle(context,xpos,ypos,plength,pwidth,speed){
+  this.speed = 8;
   this.xpos = xpos;
   this.ypos = ypos;
   this.paddleLength = plength;
   this.paddleWidth = pwidth;
   this.render = function(context){
-    context.moveTo(this.xpos,this.ypos);
-    context.lineTo(this.xpos,this.ypos + this.paddleLength);
-    context.lineWidth = this.paddleWidth;
-    context.stroke();
+    context.fillStyle = '#00f';
+    context.fillRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
+  };
+  this.move = function(event) {
+    this.whichKey = event.key;
+    console.log(this.whichKey);
+    if ((this.whichKey === 'k') && (this.ypos > 5)) {
+      context.clearRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
+
+      this.ypos = this.ypos - this.speed;
+      console.log(this.ypos);
+      this.render(tableContext);
+
+      // if k key is pressed move paddle location up  speed number of pixels
+      // unless paddle is at the top of the table
+    } else if ((this.whichKey === 'm') && (this.ypos < (290 - this.paddleLength))) {
+      context.clearRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
+
+      this.ypos = this.ypos + this.speed;
+      console.log(this.ypos);
+      this.render(tableContext);
+
+      // if m key is pressed move paddle location down speed number of pixels
+      // unless paddle is at the bottom of the table
+    } 
+    }
+  }
+
+  window.onkeypress = function(e){
+    playPaddle.move(e);
   }
 
 
-}
-
 var ntable = new Table(tableContext);
 var nball = new Ball(tableContext,125,145,10);
-var computerPaddle = new Paddle(tableContext,15,15,45,12);
-var playPaddle = new Paddle(tableContext,260,245,45,12);
+var computerPaddle = new Paddle(tableContext,15,15,55,12);
+var playPaddle = new Paddle(tableContext,250,245,55,12);
 
 // function render(context) takes a context object and calls the render functions
 //                           of the two paddles and ball objects
