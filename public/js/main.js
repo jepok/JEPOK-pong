@@ -24,7 +24,7 @@ function Ball(context,xpos,ypos,bsize){
 //                             length and width properities
 //                             may add position properties as args later
 function Paddle(context,xpos,ypos,plength,pwidth,speed){
-  this.speed = 8;
+  this.speed = 14;
   this.xpos = xpos;
   this.ypos = ypos;
   this.paddleLength = plength;
@@ -41,7 +41,8 @@ function Paddle(context,xpos,ypos,plength,pwidth,speed){
 
       this.ypos = this.ypos - this.speed;
       console.log(this.ypos);
-      this.render(tableContext);
+      animate(Step);
+      // this.render(tableContext);
 
       // if k key is pressed move paddle location up  speed number of pixels
       // unless paddle is at the top of the table
@@ -50,11 +51,11 @@ function Paddle(context,xpos,ypos,plength,pwidth,speed){
 
       this.ypos = this.ypos + this.speed;
       console.log(this.ypos);
-      this.render(tableContext);
+      animate(Step);
 
       // if m key is pressed move paddle location down speed number of pixels
       // unless paddle is at the bottom of the table
-    } 
+    }
     }
   }
 
@@ -74,14 +75,18 @@ var render = function(context) {
   nball.render(tableContext);
   playPaddle.render(tableContext);
   computerPaddle.render(tableContext);
+  // ntable.render(tableContext);
+
 }
 
 var Step = function () {
   render(tableContext);
+  animate(Step);
+
 }
 
 window.onload = function() {
-  ntable.render(tableContext);
+  // ntable.render(tableContext);
   render(tableContext);
   }
 
@@ -89,6 +94,6 @@ window.onload = function() {
 var animate = window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame    ||
-        window.oRequestAnimationFrame      ||
+        window.oRequestAnimationFrame     ||
         window.msRequestAnimationFrame     ||
-        function(Step) { window.setTimeout(callback, 1000/60) };
+        function(Step) { window.setTimeout(Step, 1000/60) };
