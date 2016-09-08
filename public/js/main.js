@@ -10,12 +10,21 @@ function Table(context){
 }
 
 function Ball(context,xpos,ypos,bsize){
+  this.xSpeed = Math.random() * (20-5) + 5;
+  this.ySpeed = Math.random() * (20 -5) + 5;
+
   this.xpos = xpos;
   this.ypos = ypos;
   this.bsize = bsize;
+
   this.render = function(context) {
     context.fillStyle = "#000"
-    context.fillRect(this.xpos,this.ypos,this.bsize,this.bsize);
+    context.arc(this.xpos,this.ypos,this.bsize,0,2*Math.PI,false);
+    context.fillStyle="black";
+    context.fill();
+    context.lineWidth= 3;
+    context.strokeStyle = 'black';
+    context.stroke();
 
   }
 }
@@ -35,13 +44,13 @@ function Paddle(context,xpos,ypos,plength,pwidth,speed){
   };
   this.move = function(event) {
     this.whichKey = event.key;
-    console.log(this.whichKey);
+    // console.log(this.whichKey);
     if ((this.whichKey === 'k') && (this.ypos > 5)) {
       context.clearRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
 
       this.ypos = this.ypos - this.speed;
       console.log(this.ypos);
-      animate(Step);
+      // animate(Step);
       // this.render(tableContext);
 
       // if k key is pressed move paddle location up  speed number of pixels
@@ -51,7 +60,7 @@ function Paddle(context,xpos,ypos,plength,pwidth,speed){
 
       this.ypos = this.ypos + this.speed;
       console.log(this.ypos);
-      animate(Step);
+      // animate(Step);
 
       // if m key is pressed move paddle location down speed number of pixels
       // unless paddle is at the bottom of the table
@@ -65,7 +74,7 @@ function Paddle(context,xpos,ypos,plength,pwidth,speed){
 
 
 var ntable = new Table(tableContext);
-var nball = new Ball(tableContext,125,145,10);
+var nball = new Ball(tableContext,125,145,6);
 var computerPaddle = new Paddle(tableContext,15,15,55,12);
 var playPaddle = new Paddle(tableContext,250,245,55,12);
 
@@ -83,11 +92,15 @@ var Step = function () {
   render(tableContext);
   animate(Step);
 
+
 }
 
 window.onload = function() {
   // ntable.render(tableContext);
   render(tableContext);
+  console.log('beforeanimate');
+  animate(Step);
+  console.log('afteranimate');
   }
 
 
