@@ -20,22 +20,45 @@ function Ball(xpos,ypos,bsize){
   this.bsize = bsize;
 
   this.move = function() {
+    //collision detect and reflect off floor and ceiling
+    if(this.ypos<=this.bsize || this.ypos>=300-this.bsize){
+      this.ySpeed = -this.ySpeed;
+    }
+    // collision detect and reflect off playPaddle
+    if((this.xpos + this.bsize) >= playPaddle.xpos  &&
+      (this.ypos>=playPaddle.ypos
+      && this.ypos<=playPaddle.ypos+playPaddle.paddleLength))
+      {
+      this.xSpeed = -this.xSpeed;
+    }
+    //  collision detect and reflect off computerPaddle
+    if((this.xpos-this.bsize) <= (computerPaddle.xpos+computerPaddle.paddleWidth) &&
+      (this.ypos>=computerPaddle.ypos &&
+        this.ypos<=computerPaddle.ypos+computerPaddle.paddleLength))
+    {
+      this.xSpeed = -this.xSpeed;
+    }
     this.xpos += this.xSpeed;
     this.ypos += this.ySpeed;
+
   }
 
   this.render = function() {
     // this.move();
     context.fillStyle = "#000"
+
+    if(this.ypos<=this.bsize || this.ypos>=300-this.bsize){
+      context.fillStyle = "red"
+    }
     context.beginPath();
     context.arc(this.xpos,this.ypos,this.bsize,0,2*Math.PI,false);
-    context.fillStyle="black";
+    // context.fillStyle="black";
     context.fill();
     context.lineWidth= 3;
     context.strokeStyle = 'black';
     context.stroke();
     context.closePath();
-
+console.log()
 
   }
 }
