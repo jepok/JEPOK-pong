@@ -12,21 +12,30 @@ function Table(){
 }
 
 function Ball(xpos,ypos,bsize){
-  this.xSpeed = Math.random() * (20-5) + 5;
-  this.ySpeed = Math.random() * (20 -5) + 5;
+  this.xSpeed = Math.random() * (-2-5) + 5;
+  this.ySpeed = Math.random() * (-2 -5) + 5;
 
   this.xpos = xpos;
   this.ypos = ypos;
   this.bsize = bsize;
 
+  this.move = function() {
+    this.xpos += this.xSpeed;
+    this.ypos += this.ySpeed;
+  }
+
   this.render = function() {
+    // this.move();
     context.fillStyle = "#000"
+    context.beginPath();
     context.arc(this.xpos,this.ypos,this.bsize,0,2*Math.PI,false);
     context.fillStyle="black";
     context.fill();
     context.lineWidth= 3;
     context.strokeStyle = 'black';
     context.stroke();
+    context.closePath();
+
 
   }
 }
@@ -88,6 +97,7 @@ var render = function() {
   window.onkeypress = function(e){
     playPaddle.move(e);
   }
+  nball.move();
 
 }
 
