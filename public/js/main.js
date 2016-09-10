@@ -63,7 +63,7 @@ function Ball(xpos,ypos,bsize){
     // this.move();
     context.fillStyle = "#000"
 
-    if(this.ypos<=this.bsize || this.ypos>=300-this.bsize){
+    if(this.ypos<=this.bsize || this.ypos>=tableLength-this.bsize){
       context.fillStyle = "red"
     }
     context.beginPath();
@@ -96,6 +96,9 @@ function Paddle(xpos,ypos,plength,pwidth,speed){
     // console.log(this.whichKey);
     if ((this.whichKey === 'k') && (this.ypos > 5)) {
       // context.clearRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
+      //
+      // this.ypos = this.ypos - this.speed/2;
+      // context.fillRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
 
       this.ypos = this.ypos - this.speed;
       console.log(this.ypos);
@@ -106,8 +109,12 @@ function Paddle(xpos,ypos,plength,pwidth,speed){
       // unless paddle is at the top of the table
     } else if ((this.whichKey === 'm') && (this.ypos < (290 - this.paddleLength))) {
       // context.clearRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
+      //
+      // this.ypos += this.speed/2;
+      // context.fillRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
 
       this.ypos = this.ypos + this.speed;
+
       console.log(this.ypos);
       // animate(Step);
 
