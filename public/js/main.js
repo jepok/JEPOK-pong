@@ -1,19 +1,22 @@
 var tableCanvas = document.getElementById("table");
 var context = tableCanvas.getContext('2d');
 context.strokeStyle = "#00f";
+var tableWidth = 280;
+var tableLength = 300;
+var player1_score = 0;
+var player2_score = 0;
 
 function Table(){
   context.lineWidth = 4;
   this.render = function() {
     context.fillStyle = "white";
-    context.fillRect(1,1,274,299)
-    context.strokeRect(0,0,275,300);
+    context.fillRect(1,1,tableWidth-1,tableLength-1)
+    context.strokeRect(0,0,tableWidth,tableLength);
   }
 }
 
 function Ball(xpos,ypos,bsize){
-  this.xSpeed = Math.random() * (-2-5) + 5;
-  this.ySpeed = Math.random() * (-2 -5) + 5;
+
 
   this.xpos = xpos;
   this.ypos = ypos;
@@ -21,7 +24,7 @@ function Ball(xpos,ypos,bsize){
 
   this.move = function() {
     //collision detect and reflect off floor and ceiling
-    if(this.ypos<=this.bsize || this.ypos>=300-this.bsize){
+    if(this.ypos<=this.bsize || this.ypos>=tableLength-this.bsize){
       this.ySpeed = -this.ySpeed;
     }
     // collision detect and reflect off playPaddle
@@ -30,6 +33,7 @@ function Ball(xpos,ypos,bsize){
       && this.ypos<=playPaddle.ypos+playPaddle.paddleLength))
       {
       this.xSpeed = -this.xSpeed;
+      this.ySpeed += playPaddle.speed/32;
     }
     //  collision detect and reflect off computerPaddle
     if((this.xpos-this.bsize) <= (computerPaddle.xpos+computerPaddle.paddleWidth) &&
@@ -37,6 +41,18 @@ function Ball(xpos,ypos,bsize){
         this.ypos<=computerPaddle.ypos+computerPaddle.paddleLength))
     {
       this.xSpeed = -this.xSpeed;
+      this.ySpeed += computerPaddle.speed/32;
+    }
+    // collistion detect sides of table to score and re-serve ball
+    if(this.xpos>=tableWidth)
+    {
+      player2_score += 1;
+      Serve();
+    }
+    if(this.xpos<=0)
+    {
+      player1_score += 1;
+      Serve();
     }
     this.xpos += this.xSpeed;
     this.ypos += this.ySpeed;
@@ -58,7 +74,6 @@ function Ball(xpos,ypos,bsize){
     context.strokeStyle = 'black';
     context.stroke();
     context.closePath();
-console.log()
 
   }
 }
@@ -67,7 +82,7 @@ console.log()
 //                             length and width properities
 //                             may add position properties as args later
 function Paddle(xpos,ypos,plength,pwidth,speed){
-  this.speed = 17;
+  this.speed = 23;
   this.xpos = xpos;
   this.ypos = ypos;
   this.paddleLength = plength;
@@ -102,13 +117,18 @@ function Paddle(xpos,ypos,plength,pwidth,speed){
     }
   }
 
-
+ Paddle.prototype.update = function() {
+   if(this.ypos>nball.ypos){
+     this.ySpeed = -this.ySpeed
+   }
+ }
 
 
 var ntable = new Table();
-var nball = new Ball(125,145,6);
-var computerPaddle = new Paddle(15,15,55,12);
-var playPaddle = new Paddle(250,245,55,12);
+var nball = new Ball(132,150,6);
+var computerPaddle = new Paddle(5,15,55,12,2);
+var playPaddle = new Paddle(260,245,55,12);
+
 
 // function render(context) takes a context object and calls the render functions
 //                           of the two paddles and ball objects
@@ -120,6 +140,7 @@ var render = function() {
   window.onkeypress = function(e){
     playPaddle.move(e);
   }
+  computerPaddle.update();
   nball.move();
 
 }
@@ -131,10 +152,19 @@ var Step = function () {
 
 }
 
+ var Serve = function() {
+
+ nball.xpos = 132;
+ nball.ypos = 150;
+ nball.xSpeed = Math.random() * (-2-5) + 5;
+ nball.ySpeed = Math.random() * (-2 -5) + 5;
+
+ }
 window.onload = function() {
   // ntable.render(tableContext);
   // render(tableContext);
   console.log('beforeanimate');
+  Serve();
   animate(Step);
   console.log('afteranimate');
   }
