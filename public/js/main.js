@@ -1,6 +1,8 @@
 var tableCanvas = document.getElementById("table");
 var context = tableCanvas.getContext('2d');
 context.strokeStyle = "#00f";
+var keysDown = {};
+
 var tableWidth = 280;
 var tableLength = 300;
 var player1_score = 0;
@@ -82,7 +84,7 @@ function Ball(xpos,ypos,bsize){
 //                             length and width properities
 //                             may add position properties as args later
 function Paddle(xpos,ypos,plength,pwidth,speed){
-  this.speed = 23;
+  this.speed = 10;
   this.xpos = xpos;
   this.ypos = ypos;
   this.paddleLength = plength;
@@ -92,35 +94,44 @@ function Paddle(xpos,ypos,plength,pwidth,speed){
     context.fillRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
   };
   this.move = function(event) {
-    this.whichKey = event.key;
-    // console.log(this.whichKey);
-    if ((this.whichKey === 'k') && (this.ypos > 5)) {
-      // context.clearRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
-      //
-      // this.ypos = this.ypos - this.speed/2;
-      // context.fillRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
-
+    //keydown experiment for better animate
+    for(var key in keysDown) {
+  var value = Number(key);
+  if(value == 75 && (this.ypos > 5)) {
       this.ypos = this.ypos - this.speed;
-      console.log(this.ypos);
-      // animate(Step);
-      // this.render(tableContext);
-
-      // if k key is pressed move paddle location up  speed number of pixels
-      // unless paddle is at the top of the table
-    } else if ((this.whichKey === 'm') && (this.ypos < (290 - this.paddleLength))) {
-      // context.clearRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
-      //
-      // this.ypos += this.speed/2;
-      // context.fillRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
-
+  } else if (value == 77 && (this.ypos < (290 - this.paddleLength))) {
       this.ypos = this.ypos + this.speed;
+  } else {
+    this.ypos = this.ypos;
+   }
+}
 
-      console.log(this.ypos);
-      // animate(Step);
-
-      // if m key is pressed move paddle location down speed number of pixels
-      // unless paddle is at the bottom of the table
-    }
+    // this.whichKey = event.key;
+    // // console.log(this.whichKey);
+    // if ((this.whichKey === 'k') && (this.ypos > 5)) {
+    //   // context.clearRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
+    //   //
+    //   // this.ypos = this.ypos - this.speed/2;
+    //   // context.fillRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
+    //   // console.log(this.ypos);
+    //   this.ypos = this.ypos - this.speed;
+    //   // animate(Step);
+    //   // this.render(tableContext);
+    //   // if k key is pressed move paddle location up  speed number of pixels
+    //   // unless paddle is at the top of the table
+    // } else if ((this.whichKey === 'm') && (this.ypos < (290 - this.paddleLength))) {
+    //   // context.beginPath();
+    //   // context.clearRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
+    //   // context.closePath();
+    //   // context.beginPath();
+    //   // this.ypos += this.speed/2;
+    //   // context.fillRect(this.xpos,this.ypos,this.paddleWidth,this.paddleLength);
+    //   // context.closePath();
+    //   this.ypos = this.ypos + this.speed;
+    //   // animate(Step);
+    //   // if m key is pressed move paddle location down speed number of pixels
+    //   // unless paddle is at the bottom of the table
+    // }
     }
   }
 
@@ -133,8 +144,8 @@ function Paddle(xpos,ypos,plength,pwidth,speed){
 
 var ntable = new Table();
 var nball = new Ball(132,150,6);
-var computerPaddle = new Paddle(5,15,55,12,2);
-var playPaddle = new Paddle(260,245,55,12);
+var computerPaddle = new Paddle(5,15,55,10,2);
+var playPaddle = new Paddle(260,245,55,10);
 
 
 // function render(context) takes a context object and calls the render functions
@@ -144,11 +155,24 @@ var render = function() {
   nball.render();
   playPaddle.render();
   computerPaddle.render();
-  window.onkeypress = function(e){
-    playPaddle.move(e);
+  window.onkeydown = function(e){
+    keysDown[e.keyCode] = true
+    // playPaddle.move(e);
   }
+  window.onkeyup = function(e){
+    delete keysDown[e.keyCode];
+  }
+  // window.addEventListener("keydown", function(event) {
+  //   keysDown[event.keyCode] = true;
+  // });
+  //
+  // window.addEventListener("keyup", function(event) {
+  //   delete keysDown[event.keyCode];
+  // });
   computerPaddle.update();
   nball.move();
+  playPaddle.move();
+
 
 }
 
@@ -168,6 +192,9 @@ var Step = function () {
 
  }
 window.onload = function() {
+
+
+
   // ntable.render(tableContext);
   // render(tableContext);
   console.log('beforeanimate');
@@ -182,4 +209,4 @@ var animate = window.requestAnimationFrame ||
         window.mozRequestAnimationFrame    ||
         window.oRequestAnimationFrame     ||
         window.msRequestAnimationFrame     ||
-        function(Step) { window.setTimeout(Step, 1000/100) };
+        function(callback) { window.setTimeout(callback, 1000/60) };
