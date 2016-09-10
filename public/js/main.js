@@ -46,12 +46,12 @@ function Ball(xpos,ypos,bsize){
       this.ySpeed += computerPaddle.speed/32;
     }
     // collistion detect sides of table to score and re-serve ball
-    if(this.xpos>=tableWidth)
+    if(this.xpos>=tableWidth-5)
     {
       player2_score += 1;
       Serve();
     }
-    if(this.xpos<=0)
+    if(this.xpos<=5)
     {
       player1_score += 1;
       Serve();
@@ -65,9 +65,9 @@ function Ball(xpos,ypos,bsize){
     // this.move();
     context.fillStyle = "#000"
 
-    if(this.ypos<=this.bsize || this.ypos>=tableLength-this.bsize){
-      context.fillStyle = "red"
-    }
+    // if(this.ypos<=this.bsize || this.ypos>=tableLength-this.bsize){
+    //   context.fillStyle = "red"
+    // }
     context.beginPath();
     context.arc(this.xpos,this.ypos,this.bsize,0,2*Math.PI,false);
     // context.fillStyle="black";
@@ -105,7 +105,7 @@ function Paddle(xpos,ypos,plength,pwidth,speed){
     this.ypos = this.ypos;
    }
 }
-
+  //original key detection for playpaddle movement
     // this.whichKey = event.key;
     // // console.log(this.whichKey);
     // if ((this.whichKey === 'k') && (this.ypos > 5)) {
@@ -136,16 +136,33 @@ function Paddle(xpos,ypos,plength,pwidth,speed){
   }
 
  Paddle.prototype.update = function() {
-   if(this.ypos>nball.ypos){
-     this.ySpeed = -this.ySpeed
+      if(nball.xSpeed<=0){
+
+     var diff = this.ypos - nball.ypos;
+     if(diff<0){
+     if(diff<-0.5){
+       this.ypos=this.ypos+0.5;
+     } else {
+       this.ypos=nball.ypos;
+     }
+   }else if(diff>0){
+     if(diff>0.5){
+       this.ypos = this.ypos - 0.5;
+
+     } else {
+       this.ypos = nball.ypos;
+     }
+   }
+    //  this.ySpeed = -this.ySpeed;
+    //  this.ypos = nball.ypos - computerPaddle.paddleLength/2;
    }
  }
 
 
 var ntable = new Table();
 var nball = new Ball(132,150,6);
-var computerPaddle = new Paddle(5,15,55,10,2);
-var playPaddle = new Paddle(260,245,55,10);
+var computerPaddle = new Paddle(0,15,55,10,2);
+var playPaddle = new Paddle(265,245,55,10);
 
 
 // function render(context) takes a context object and calls the render functions
@@ -155,6 +172,7 @@ var render = function() {
   nball.render();
   playPaddle.render();
   computerPaddle.render();
+  computerPaddle.update();
   window.onkeydown = function(e){
     keysDown[e.keyCode] = true
     // playPaddle.move(e);
