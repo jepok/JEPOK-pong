@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css" />
   <title>JEPOK Pong</title>
 </head>
 <body>
-  Play JEPOK Pong
-  <canvas id="table" style="border:2px solid black;" height="300" width="275"></canvas>
+  <canvas id="table" style="border:2px solid black;" height="400" width="380"></canvas>
   <div class="scores">
+    <div class="headline">
+    JEPOK Pong
+
+    </div>
+    Player 1
     <div id="player1">
 
     </div>
+    Player 2
     <div id="player2">
-      
+
     </div>
+  </div>
+  <div class="summary">
+    <p>
+      Use the &apos;k&apos; and &apos;m&apos; keys to control the Player 1 (left)
+      paddle.  The first player to 11 wins.
+    </p>
+  </div>
+  <div id="startScreen" class="startScreen">
+    Press &lt;SPACEBAR&gt; to start the game
   </div>
   <script src="js/main.js"></script>
 </body>

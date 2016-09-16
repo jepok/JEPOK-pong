@@ -1,0 +1,43 @@
+#table {
+  left:50px;
+  margin: 10px;
+  /*box-shadow: 2px 5px blue;*/
+}
+.scores {
+  font-family: fantasy;
+  width: 25%;
+  display: inline-block;
+  font-size: 2.3em;
+  color:Black;
+  text-align: center;
+}
+
+#player1 {
+  text-align: center;
+  color: #00FF40;
+  text-shadow: 2px 3px #00FF40;
+
+}
+
+#player2 {
+  text-align: center;
+  text-shadow: 2px 3px blue;
+  color: blue;
+}
+
+.headline {
+}
+.summary {
+  width: 25%;
+
+}
+
+.startScreen {
+  /*display: none;*/
+  width: 10%;
+  text-align: center;
+  font-size: 2em;
+  position: absolute;
+  top: 4%;
+  left: 3%;
+}
