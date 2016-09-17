@@ -225,10 +225,10 @@ function Ball(xpos,ypos,bsize){
 
       }
       this.checkScore = function() {
-        if(player1_score === 3) {
+        if(player1_score === 11) {
           winnerIs = "Player 1";
           this.endgame();
-        } else if(player2_score === 3){
+        } else if(player2_score === 11){
           winnerIs = "Player 2";
           this.endgame();
         }

@@ -34,10 +34,14 @@
 
 .startScreen {
   /*display: none;*/
-  width: 10%;
+  background-color: white;
+  color: #0e1b49;
+  text-shadow: 1px 3px #1e2633;
+  width: 20%;
   text-align: center;
-  font-size: 2em;
+  font-size: 2.2em;
   position: absolute;
-  top: 4%;
-  left: 3%;
+  top: 5%;
+  left: 4%;
+  z-index: 100;
 }
